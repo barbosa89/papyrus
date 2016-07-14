@@ -9,7 +9,7 @@
  * @subpackage	EngineFiles
  * @license    	http://www.gnu.org/licenses/gpl.txt  GNU GPL 3.0
  * @author     	Omar Andrés Barbosa Ortiz
- * @link       	omar.barbosa89.blogspot.com
+ * @link       	https://oabarbosa.wordpress.com
  * 
  */
 

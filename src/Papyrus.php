@@ -9,8 +9,7 @@
  * @subpackage	Papyrus
  * @license    	http://www.gnu.org/licenses/gpl.txt  GNU GPL 3.0
  * @author     	Omar Andrés Barbosa Ortiz
- * @link       	omar.barbosa89.blogspot.com
- * TODO Corregir link
+ * @link       	https://oabarbosa.wordpress.com
  *
  */
 namespace Barbosa\Papyrus;
