@@ -1,0 +1,20 @@
+{
+    "name": "barbosa/papyrus",
+    "description": "Storing data in the file system",
+    "type": "library",
+    "license": "GLP-3.0",
+    "keywords": ["file system, storing, data, json, files, data, wrinting, reading"],
+    "authors": [
+        {
+            "name": "Omar Barbosa",
+            "email": "omar.barbosa89@outlook.com"
+        }
+    ],
+    "minimum-stability": "beta",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Barbosa\\Papyrus\\": "src"
+        }
+    }
+}
