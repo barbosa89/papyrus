@@ -4,7 +4,7 @@
     "type": "library",
     "version": "1.0",
     "license": "GLP-3.0",
-    "keywords": ["file system, storing, data, json, files, data, wrinting, reading"],
+    "keywords": ["file system", "storing", "data", "json", "files", "data", "wrinting files", "reading files"],
     "authors": [
         {
             "name": "Omar Barbosa",
@@ -12,8 +12,9 @@
             "homepage": "http://omarbarbosa.com/"
         }
     ],
-    "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "php": ">=5.4"
+    },
     "autoload": {
         "psr-4": {
             "Barbosa\\Papyrus\\": "src"
