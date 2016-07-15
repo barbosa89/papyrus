@@ -7,9 +7,17 @@ The Papyrus package can store information in files, perform queries, updates, an
 
 ## Installation
 
-To install Papyrus, simply:
+To install via composer (http://getcomposer.org/), place the following in your composer.json file:
 
-	$ composer require barbosa/papyrus
+    {
+        "require": {
+            "barbosa/papyrus": "dev-master"
+        }
+    }
+
+or download package from github.com:
+
+    http://github.com/barbosa89/papyrus
 
 ## Configuration
 

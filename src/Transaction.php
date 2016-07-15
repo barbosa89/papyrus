@@ -9,7 +9,7 @@
  * @subpackage	Transaction
  * @license    	http://www.gnu.org/licenses/gpl.txt  GNU GPL 3.0
  * @author     	Omar Andrés Barbosa Ortiz
- * @link        https://oabarbosa.wordpress.com
+ * @link        http://omarbarbosa.com
  *
  */
 
