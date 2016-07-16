@@ -90,7 +90,7 @@ class EngineFiles
 	{
 		if (!empty($files)) {
 			foreach ($files as $file) {
-				$this->files[$file] = 'Papyrus/src/storage/' . $file . self::$ext;
+				$this->files[$file] = realpath(__DIR__) . '/storage/' . $file . self::$ext;
 			}
 		}
 	}

@@ -84,13 +84,11 @@ class Transaction extends EngineFiles
 
 					if (empty($this->records)) {
 						$this->write($fileName, $data);
-						$this->status = true;
 					}
 				} elseif ($key[1] == 'int++') {
 					$latest = $this->getLatest($fileName, $key[2]);
 					$data = $this->prepareAutoIncrementData($data, $key[2], $latest, $structure);
 					$this->write($fileName, $data);
-					$this->status = true;
 				}
 			}
 		}
@@ -134,7 +132,6 @@ class Transaction extends EngineFiles
 					}
 				}
 				$this->write($fileName, $this->records, false);
-				$this->status = true;
 			}
 		} else {
 			$this->get($fileName);	
@@ -150,7 +147,6 @@ class Transaction extends EngineFiles
 					}
 				}
 				$this->write($fileName, $this->records, false);
-				$this->status = true;	
 			} 	
 		}
 	}
@@ -178,10 +174,8 @@ class Transaction extends EngineFiles
 				}
 			}
 			$this->write($fileName, $this->records, false);
-			$this->status = true;	
 		} else {
 			$this->write($fileName, [], false);
-			$this->status = true;	
 		}
 	}
 

@@ -56,7 +56,7 @@ Example:
 
 A file will be created with **registers** name and the extension .papyrus:
 
-    $ touch /Papyrus/src/storage/registers.papyrus
+    $ touch barbosa/papyrus/src/storage/registers.papyrus
 
 In the console:
 
@@ -67,13 +67,13 @@ You can add every files that you need.
 
 ## Permissions
 
-Storage folder: 
-
-    chmod 704 storage
-
-Files: 
+Files in the storage folder (barbosa/papyrus/src/storage/): 
 
     chmod 706 fileName.extension
+
+Example:
+    
+    chmod 706 registers.papyrus
 
 ## Quick Start and Examples
 
