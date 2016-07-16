@@ -24,11 +24,11 @@ or download package from github.com:
 Open the file **config.php**, set the file extension and file estructure. 
 
 	return [
-	'extension'	=>	'.project',
-	'files' =>	[
-			'users' => ['dni(int#)', 'name', 'lastName']
-			]
-	];
+            'extension'	=>	'.project',
+            'files' =>  [
+                        'users' => ['dni(int#)', 'name', 'lastName']
+                        ]
+	       ];
 
 The extension for all files:
 
@@ -50,7 +50,7 @@ The options for primary key:
 
 Creates files in the storage folder:
    
-    Papyrus/src/storage 
+    barbosa/papyrus/src/storage/ 
 
 Example:
 
@@ -85,9 +85,9 @@ For purposes of explaining with examples , it is assumed that there is a file ca
 
 Field dni(int#), indicates that is the primary key and a unique integer.
 
-Require the Papyrus file:
+Require the autoload file:
 
-    require 'Papyrus/src/Papyrus.php';
+    require 'vendor/autoload.php';
 
     use \Barbosa\Papyrus\Papyrus;
 
