@@ -1,14 +1,14 @@
 {
     "name": "barbosa/papyrus",
-    "description": "Storing data in the file system",
+    "description": "Storing data in the file system with PHP",
     "type": "library",
     "version": "1.0",
     "license": "GLP-3.0",
-    "keywords": ["file system", "storing", "data", "json", "files", "data", "wrinting files", "reading files"],
+    "keywords": ["file system", "storing data", "data", "json", "files", "wrinting files", "reading files"],
     "authors": [
         {
-            "name": "Omar Barbosa",
-            "email": "omar.barbosa89@outlook.com",
+            "name": "Omar A. Barbosa",
+            "email": "contacto@omarbarbosa.com",
             "homepage": "http://omarbarbosa.com/"
         }
     ],
