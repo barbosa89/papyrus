@@ -191,7 +191,7 @@ class Transaction extends EngineFiles
 	private function getPrimaryKey($fileName = '')
 	{
 		foreach ($this->headers[$fileName] as $fields) {
-			preg_match("/[a-z]+\((str#|int\+\+|int#)\)/", $fields, $coincidence);
+			preg_match("/[aA-zZ]+\((str#|int\+\+|int#)\)/", $fields, $coincidence);
 			if (!empty($coincidence)) {
 				$key = str_replace("(" . $coincidence[1] . ")", "", $coincidence[0]);	
 				array_push($coincidence, $key);

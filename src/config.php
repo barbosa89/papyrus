@@ -4,8 +4,7 @@
  * Papyrus
  * Config file
  * 
- * Permissions:	Storage folder: chmod 704 storage
- * 				Files: chmod 706 fileName.ext
+ * Permissions:	chmod 706 fileName.ext
  */
 
 return [
