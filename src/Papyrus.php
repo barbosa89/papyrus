@@ -315,8 +315,25 @@ class Papyrus extends Transaction implements FluentInterface
 					}
 					break;
 			}
+			$this->reset();
 		}
 
 		return $this;
+	}
+
+	/**
+	 * reset method
+	 * Reset the properties values
+	 * 
+	 * @access private
+	 */
+	private function reset()
+	{
+		$this->file = '';
+		$this->fields = [];
+		$this->where = []; 
+		$this->limit = 0;
+		$this->orderBy = [];
+		$this->data = [];
 	}
 }

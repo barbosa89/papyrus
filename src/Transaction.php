@@ -107,31 +107,38 @@ class Transaction extends EngineFiles
 	{
 		$id = array_keys($where);
 		if (!empty($where)) {
-			$this->get($fileName, [], $where);
-			
-			if (!empty($this->records)) {
-				$this->get($fileName);
-				$key = $this->getPrimaryKey($fileName);
-				$structure = $this->getStructure($fileName, $key[1]);
+			$this->records = [];
+			if (array_key_exists($id[0], $data)) {
+				$this->get($fileName, [], [$id[0] => $data[$id[0]]]);
+			}
+			if (empty($this->records)) {
+				$this->get($fileName, [], $where);
+				if (!empty($this->records)) {
+					$this->get($fileName);
+					$key = $this->getPrimaryKey($fileName);
+					$structure = $this->getStructure($fileName, $key[1]);
 
-				if ($key[1] == 'str#' or $key[1] == 'int#') {
-					$data = array_filter($this->prepareRows($data, $structure));
-				} elseif ($key[1] == 'int++') {
-					$data = array_filter($this->prepareAutoIncrementData(
-																		$data, 
-																		$id[0], 
-																		$where[$id[0]] - 1, 
-																		$structure
-																		));
-				}
-				foreach ($this->records as $record => $rows) {
-					if ($rows[$id[0]] === $where[$id[0]] and $key[2] === $where[$id[0]]) {
-						foreach ($data as $key => $value) {
-							$this->records[$record][$key] = $value;
-						}
+					if ($key[1] == 'str#' or $key[1] == 'int#') {
+						$data = array_filter($this->prepareRows($data, $structure));
+					} elseif ($key[1] == 'int++') {
+						$data = array_filter($this->prepareAutoIncrementData(
+																			$data, 
+																			$id[0], 
+																			$where[$id[0]] - 1, 
+																			$structure
+																			));
 					}
+
+					foreach ($this->records as $record => $rows) {
+						if ($rows[$id[0]] === $where[$id[0]] and $key[2] === $id[0]) {
+							foreach ($data as $key => $value) {
+								$this->records[$record][$key] = $value;
+							}
+						} 
+					}
+
+					$this->write($fileName, $this->records, false);
 				}
-				$this->write($fileName, $this->records, false);
 			}
 		} else {
 			$this->get($fileName);	
@@ -162,18 +169,22 @@ class Transaction extends EngineFiles
 	protected function remove($fileName = '', array $where = null)
 	{
 		if (!empty($where)) {
-			$this->get($fileName);
-			$key = $this->getPrimaryKey($fileName);	
-			foreach ($this->records as $record => $rows) {
-				foreach ($rows as $keyRows => $valueRows) {
-					foreach ($where as $field => $value) {
-						if ($field === $keyRows and $field === $key[2] and $value === $valueRows) {
-							unset($this->records[$record]);
+			$this->get($fileName, [], $where);
+			if (!empty($this->records)) {
+				$this->get($fileName);
+				$key = $this->getPrimaryKey($fileName);	
+				foreach ($this->records as $record => $rows) {
+					foreach ($rows as $keyRows => $valueRows) {
+						foreach ($where as $field => $value) {
+							if ($field === $keyRows and $field === $key[2] and $value === $valueRows) {
+								unset($this->records[$record]);
+							}
 						}
 					}
 				}
+				ksort($this->records);
+				$this->write($fileName, array_values($this->records), false);
 			}
-			$this->write($fileName, $this->records, false);
 		} else {
 			$this->write($fileName, [], false);
 		}
@@ -230,9 +241,13 @@ class Transaction extends EngineFiles
 						}
 						break;
 				}
-
-				return $valid;
+			} else {
+				if ($key[1] === 'int++') {
+					$valid = true;
+				}
 			}
+
+			return $valid;
 		}
 	}
 
