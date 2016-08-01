@@ -90,7 +90,10 @@ class EngineFiles
 	{
 		if (!empty($files)) {
 			foreach ($files as $file) {
-				$this->files[$file] = realpath(__DIR__) . '/storage/' . $file . self::$ext;
+				$path = realpath(__DIR__ . '/storage/' . $file . self::$ext);
+				if (file_exists($path) and is_readable($path)) {
+					$this->files[$file] = $path;
+				}
 			}
 		}
 	}
