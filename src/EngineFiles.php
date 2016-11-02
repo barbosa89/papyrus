@@ -24,6 +24,18 @@ class EngineFiles
 	protected static $ext;
 
 	/**
+	 * $configurationsPath Absolute configurations path
+	 * @var string
+	 */
+	private $configurationsPath = '';
+
+	/**
+	 * $storagePath Absolute storagePath
+	 * @var string
+	 */
+	private $storagePath = '';
+
+	/**
 	 * $files The files to use
 	 * @var array
 	 */	
@@ -63,6 +75,24 @@ class EngineFiles
 			$this->setFiles($tempFiles);
 			$this->setHeaders($tempFields);
 		}	
+	}
+
+	/**
+	 * setConfigPath
+	 * @param string $path
+	 */
+	public function setConfigPath($path = '')
+	{
+		$this->configurationsPath = $path;
+	}
+
+	/**
+	 * setStoragePath
+	 * @param string $path 
+	 */
+	public function setStoragePath($path = '')
+	{
+		$this->configurationsPath = $path;
 	}
 
 	/**
