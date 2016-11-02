@@ -15,6 +15,8 @@
 
 namespace Barbosa\Papyrus;
 
+use Barbosa\Papyrus\Helper;
+
 class EngineFiles
 {
 	/**
@@ -22,12 +24,6 @@ class EngineFiles
 	 * @var string
 	 */
 	protected static $ext;
-
-	/**
-	 * $configurationsPath Absolute configurations path
-	 * @var string
-	 */
-	private $configurationsPath = '';
 
 	/**
 	 * $storagePath Absolute storagePath
@@ -54,45 +50,43 @@ class EngineFiles
 	protected $status = false;
 
 	/**
-	 * __construct method
-	 * Load the configurations
-	 * 
-	 * @access public
+	 * __construct Load the configurations
+	 * @param array|null $config      
+	 * @param string     $storagePath Absolute storage folder path
 	 */
-	public function __construct()
+	public function __construct(array $config = null, $storagePath = '')
 	{
-		$options = require_once 'config.php';
-		if (!empty($options)) {
-			$tempFiles = [];
-			$tempFields = [];
-			foreach ($options['files'] as $file => $fields) {
-				$tempFiles[] = $file;
-				foreach ($fields as $field) {
-					$tempFields[$file][] = $field;
-				}
-			}
-			$this->setExtension($options['extension']);
-			$this->setFiles($tempFiles);
-			$this->setHeaders($tempFields);
-		}	
+		$this->setStoragePath($storagePath);
+		$this->loadConfigurations($config);
 	}
 
 	/**
-	 * setConfigPath
-	 * @param string $path
+	 * loadConfigurations Invokes methods to configure the files and structures
+	 * @param  array|null $config Array with extension key and files key
 	 */
-	public function setConfigPath($path = '')
+	public function loadConfigurations(array $config = null)
 	{
-		$this->configurationsPath = $path;
+		if (!empty($config)) {
+			if (array_key_exists('extension', $config)) {
+				$this->setExtension($config['extension']);
+			}
+			
+			if (array_key_exists('files', $config)) {
+				$this->setFiles(array_keys($config['files']));
+				$this->setHeaders($config['files']);
+			}
+		}
 	}
 
 	/**
 	 * setStoragePath
-	 * @param string $path 
+	 * @param string $path Absolute storage folder path
 	 */
 	public function setStoragePath($path = '')
 	{
-		$this->configurationsPath = $path;
+		if (is_dir($path) and is_readable($path)) {
+			$this->storagePath = realpath($path);
+		}
 	}
 
 	/**
@@ -120,7 +114,7 @@ class EngineFiles
 	{
 		if (!empty($files)) {
 			foreach ($files as $file) {
-				$path = realpath(__DIR__ . '/storage/' . $file . self::$ext);
+				$path = realpath($this->storagePath . '/' . $file . self::$ext);
 				if (file_exists($path) and is_readable($path)) {
 					$this->files[$file] = $path;
 				}
@@ -135,11 +129,13 @@ class EngineFiles
 	 * @access protected
 	 * @param array $fields
 	 */
-	protected function setHeaders(array $fields = null)		
+	protected function setHeaders(array $files = null)		
 	{
-		if (!empty($fields)) {
-			foreach ($fields as $file => $field) {
-				$this->headers[$file] = $field;
+		if (!empty($files)) {
+			foreach ($files as $file => $fields) {
+				foreach ($fields as $field) {
+					$this->headers[$file][] = $field;
+				}
 			}
 		}
 	}

@@ -21,26 +21,60 @@ or download package from github.com:
 
 ## Configuration
 
-Open the file **config.php**, set the file extension and file estructure. 
+Papyrus need to run an array of configurations and a path to the folder containing the files storage.
 
-	return [
+#### Configuration array
+
+Create an array of configurations in a file or in the class which instances to Papyrus. The array must have two key, extension and files: 
+
+	<?php
+    
+    /**
+     * Example in a configurations file. 
+     */
+
+    return [
+
             'extension'	=>	'.project',
+
             'files' =>  [
                         'users' => ['dni(int#)', 'name', 'lastName']
                         ]
 	       ];
 
-The extension for all files:
+Other way, in the class which instances to Papyrus:
 
-    'extension' => '.someExtension'
+    <?php 
+
+    require 'vendor/autoload.php';
+
+    use \Barbosa\Papyrus\Papyrus;
+
+    $config = [
+
+            'extension' =>  '.project',
+
+            'files' =>  [
+                        'users' => ['dni(int#)', 'name', 'lastName']
+                        ]
+            ];
+
+    $papyrus = new Papyrus($config);
+
+
+This extension is for all files:
+
+    'extension' => '.project'
 
 
 The file structure represents fields in a SQL table , these are the headlines:
 
     'files' => [
-		'fileName' => ['key(int#)', 'field', 'otherField'],
-        'otherFileName' => ['key(str#)', 'field', 'otherField']
-		]
+
+        'fileName' => ['primaryKey(int#)', 'field', 'otherField'],
+        'otherFileName' => ['primaryKey(str#)', 'field', 'otherField']
+		
+        ]
 
 The options for primary key:
 
@@ -48,32 +82,91 @@ The options for primary key:
 	Unique integer (int#)
 	Unique string (str#)
 
-Creates files in the storage folder:
-   
-    barbosa/papyrus/src/storage/ 
+#### Absolute storage folder path
+
+Storage files that are configured in the array must be created in a folder chosen by the user, the folder path should be passed to Papyrus:
+
+    <?php 
+
+    require 'vendor/autoload.php';
+
+    use \Barbosa\Papyrus\Papyrus;
+
+    /**
+     * Complete example. 
+     */
+
+    $config = [
+
+            'extension' =>  '.project',
+
+            'files' =>  [
+                        'users' => ['dni(int#)', 'name', 'lastName']
+                        ]
+            ];
+
+    $path = realpath(__DIR__ . '/storageFolder/');
+
+    $papyrus = new Papyrus($config, $path);
+
+You can also switch configurations through methods:
+
+    <?php 
+
+    require 'vendor/autoload.php';
+
+    use \Barbosa\Papyrus\Papyrus;
+
+    /**
+     * Complete example with setters. 
+     */
+
+    $config = [
+
+            'extension' =>  '.project',
+
+            'files' =>  [
+                        'users' => ['dni(int#)', 'name', 'lastName']
+                        ]
+            ];
+
+    $papyrus = new Papyrus();
+
+    $config = [
+
+            'extension' =>  '.project',
+
+            'files' =>  [
+                        'users' => ['dni(int#)', 'name', 'lastName']
+                        ]
+            ];
+
+    $papyrus->loadConfigurations($config);
+
+    $papyrus->setStoragePath(realpath(__DIR__ . '/storageFolder/'));
 
 Example:
 
-A file will be created with **registers** name and the extension .papyrus:
+A file will be created with **registers** name and the extension .data:
 
-    $ touch barbosa/papyrus/src/storage/registers.papyrus
+    $ touch path/to/storageFolder/registers.data
 
 In the console:
 
 	$ ls -l
-    -rwx---rw- 1 user user 494 jul  8 21:10 registers.papyrus
+    -rwx---rw- 1 user user 494 jul  8 21:10 registers.data
 
 You can add every files that you need.
 
 ## Permissions
 
-Files in the storage folder (barbosa/papyrus/src/storage/): 
+Files in the storage folder (path/to/storageFolder/): 
 
     chmod 706 fileName.extension
 
 Example:
     
-    chmod 706 registers.papyrus
+    chmod 706 registers.data
 
 ## Quick Start and Examples
 
@@ -205,6 +298,8 @@ The primary key of a record can not be modified.
     Papyrus::runQuery();
     Papyrus::getRecords();
     Papyrus::getStatus();
+    $papyrus->loadConfigurations(array $config = null);
+    $papyrus->setStoragePath($path = '');
 
 
 ## Contribute
@@ -213,3 +308,7 @@ The primary key of a record can not be modified.
 3. Write one or more tests for the new feature or that expose the bug.
 4. Make code changes to implement the feature or fix the bug.
 5. Send a pull request to get your changes merged and published.
+
+Thanks...
+
+### [Omar Andrés Barbosa](http://omarbarbosa.com)

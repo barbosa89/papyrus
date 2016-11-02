@@ -33,6 +33,7 @@ return [
 	 */
 
 	'files' =>	[
-					'users' => ['dni(int#)', 'name', 'lastName']
+					'users' => ['dni(int#)', 'name', 'lastName'],
+					'logs' => ['id(int++)', 'action', 'date']
 				]
 	];

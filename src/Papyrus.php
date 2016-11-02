@@ -329,11 +329,27 @@ class Papyrus extends Transaction implements FluentInterface
 	 */
 	private function reset()
 	{
-		$this->file = '';
-		$this->fields = [];
-		$this->where = []; 
-		$this->limit = 0;
-		$this->orderBy = [];
-		$this->data = [];
+		$list = ['file', 'fields', 'where', 'limit', 'orderBy', 'data'];
+		$properties = get_class_vars(get_class($this));
+		
+		foreach ($list as $name) {
+			if (in_array($name, array_keys($properties))) {
+				switch (gettype($this->$name)) {
+					case 'string':
+						$this->$name = '';
+						break;
+					case 'array':
+						$this->$name = [];
+						break;
+					case 'int':
+						$this->$name = 0;
+						break;
+					
+					default:
+						$this->$name = null;
+						break;
+				}
+			}
+		}
 	}
 }
