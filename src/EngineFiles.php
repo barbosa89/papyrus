@@ -72,7 +72,12 @@ class EngineFiles
 			}
 			
 			if (array_key_exists('files', $config)) {
-				$this->setFiles(array_keys($config['files']));
+				try {
+					$this->setFiles(array_keys($config['files']));
+				} catch (\ErrorException $e) {
+					echo $e->getMessage();
+				}
+				
 				$this->setHeaders($config['files']);
 			}
 		}
@@ -84,8 +89,14 @@ class EngineFiles
 	 */
 	public function setStoragePath($path = '')
 	{
-		if (is_dir($path) and is_readable($path)) {
-			$this->storagePath = realpath($path);
+		try {
+			if (is_dir($path) and is_readable($path)) {
+				$this->storagePath = realpath($path);
+			} else {
+				throw new \ErrorException("Please, check the storage path.", 1);
+			}
+		} catch (\ErrorException $e) {
+			echo $e->getMessage();
 		}
 	}
 
@@ -117,6 +128,8 @@ class EngineFiles
 				$path = realpath($this->storagePath . '/' . $file . self::$ext);
 				if (file_exists($path) and is_readable($path)) {
 					$this->files[$file] = $path;
+				} else {
+					throw new \ErrorException("Please, check the storage files.", 1);
 				}
 			}
 		}
