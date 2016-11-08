@@ -1,13 +1,13 @@
-# Papyrus: Storing data in the file system with PHP
+# Papyrus: Almacenando datos en el sistema de archivos con PHP
 
-## Generalities
+## Generalidades
 
 
-The Papyrus package can store information in files, perform queries, updates, and deletes data . All this, based on a primary key or identifier. The information is stored in JSON format.
+El paquete Papyrus puede almacenar información en archivos, realizar consultas, actualizaciones y eliminar datos. Todo esto, basado en una llave primaria o identificador. La información es almacenada en formato JSON. 
 
-## Installation
+## Instalación
 
-To install via composer (http://getcomposer.org/), place the following in your composer.json file:
+Para instalar vía [Composer](http://getcomposer.org/), escribe lo siguiente en tu archivo composer.json:
 
     {
         "require": {
@@ -15,22 +15,22 @@ To install via composer (http://getcomposer.org/), place the following in your c
         }
     }
 
-or download package from github.com:
+O descarga el paquete de [Github](https://github.com/barbosa89/papyrus):
 
     http://github.com/barbosa89/papyrus
 
-## Configuration
+## Configuración
 
-Papyrus need to run an array of configurations and a path to the folder containing the files storage.
+Papyrus necesita un arreglo de configuraciones y una ruta a la carpeta que contenga los archivos de almacenamiento. 
 
-#### Configuration array
+#### Arreglo de configuraciones
 
-Create an array of configurations in a file or in the file which instances to Papyrus. The array must have two key, extension and files: 
+Crea un arreglo de configuraciones en un archivo o en el archivo en el cual instancies a Papyrus. El arreglo debe contener dos claves primarias, extensión y archivos.
 
 	<?php
     
     /**
-     * Example in a configurations file. 
+     * Ejemplo en un archivo de configuraciones.
      */
 
     return [
@@ -42,7 +42,7 @@ Create an array of configurations in a file or in the file which instances to Pa
                         ]
 	       ];
 
-Other way, in the file which instances to Papyrus:
+Otra forma, en el archivo en el cual instancias a Papyrus:
 
     <?php 
 
@@ -62,12 +62,12 @@ Other way, in the file which instances to Papyrus:
     $papyrus = new Papyrus($config);
 
 
-This extension is for all files:
+Esta extensión es para todos los archivos:
 
     'extension' => '.project'
 
 
-The file structure represents fields in a SQL table , what is in brackets, are the fields of each file:
+La estructura de los archivos representa los campos en una tabla SQL, lo que está entre corchetes, son los campos de cada archivo:
 
     'files' => [
 
@@ -76,15 +76,15 @@ The file structure represents fields in a SQL table , what is in brackets, are t
 		
         ]
 
-The options for primary key:
+Las opciones para llaves primarias son las siguientes:
 
 	Auto increment integer (int++)
 	Unique integer (int#)
 	Unique string (str#)
 
-#### Absolute storage folder path
+#### Ruta a la carpeta de almacenamiento
 
-Storage files that are configured in the array must be created in a folder chosen by the user, the folder path should be passed to Papyrus:
+Los archivos de almacenamiento que sean configurados en el arreglo, deben ser creados en una carpeta seleccionada por el usuario, la ruta de la carpeta debe ser pasada a Papyrus.
 
     <?php 
 
@@ -93,7 +93,7 @@ Storage files that are configured in the array must be created in a folder chose
     use \Barbosa\Papyrus\Papyrus;
 
     /**
-     * Complete example. 
+     * Ejemplo completo. 
      */
 
     $config = [
@@ -109,7 +109,7 @@ Storage files that are configured in the array must be created in a folder chose
 
     $papyrus = new Papyrus($config, $path);
 
-You can also switch configurations through methods:
+Puedes emplear cualquier forma de configuración:
 
     <?php 
 
@@ -118,7 +118,7 @@ You can also switch configurations through methods:
     use \Barbosa\Papyrus\Papyrus;
 
     /**
-     * Complete example with setters. 
+     * Ejemplo completo con métodos setters. 
      */
 
     $papyrus = new Papyrus();
@@ -136,46 +136,46 @@ You can also switch configurations through methods:
 
     $papyrus->loadConfigurations($config);
 
-## Creating of storage files
+## Creación de archivos de almacenamiento
 
-As example, a file will be created with **registers** name and the extension .data:
+Como ejemplo, será creado un archivo con el nombre **registers** y la extensión .data:
 
-    $ touch path/to/storageFolder/registers.data
+    $ touch ruta/a/carpetaDeAlmacenamiento/registers.data
 
-In the console:
+Listamos en la consola:
 
 	$ ls -l
     -rwx---rw- 1 user user 494 jul  8 21:10 registers.data
 
-You can add every files that you need.
+Puedes agregar los archivos que consideres necesarios.
 
-## Permissions (Only in Linux)
+## Permisos (Sólo para Linux)
 
-Files in the storage folder (path/to/storageFolder/): 
+A los archivos que fueron creados, se les debe otorgar permisos (ruta/a/carpetaDeAlmacenamiento/): 
 
     chmod 706 fileName.extension
 
-Example:
+Ejemplo:
     
     chmod 706 registers.data
 
-## Quick Start and Examples
+## Práctica con ejemplos
 
-For purposes of explaining with examples , it is assumed that there is a file called users with the following structure:
+Para propósitos de explicación con ejemplos, se asume que hay un archivo previamente creado llamado **users**, con la siguiente estructura:
 
     'files' => [
 		'users' => ['dni(int#)', 'name', 'lastName']
 		]
 
-Field dni(int#), indicates that is the primary key and a unique integer.
+El campo dni(int#), indica que es llave primaria y de tipo entero único.
 
-Require the autoload file:
+Incluye el archivo de autocarga  de Composer y usa el espacio de nombres de Papyrus:
 
     require 'vendor/autoload.php';
 
     use \Barbosa\Papyrus\Papyrus;
 
-### Insert
+### Inserciones
 
 
     $values = ['dni' => 123456, 'name' => 'Tony', 'lastName' => 'Stark'];
@@ -184,35 +184,35 @@ Require the autoload file:
     $papyrus->insertInto('users')->values($values)->runQuery();
 
 
-### Select
+### Selecciones
 
-The where method can only receive a value of array type, which should be the primary key or identifier.
+El método where puede únicamente recibir un valor de tipo arreglo, el cual debería ser la llave primaria o identificador.
 
-##### Select all content in a file with all fields.
+##### Seleccionar todo el contenido de un archivo con todos los campos.
 
 
     $papyrus->select()->from('users')->runQuery();
 
 
-##### Select all content in a file with some fields.
+##### Seleccionar todo el contenido de un archivo con algunos campos.
 
 
     $papyrus->select('dni, name')->from('users')->runQuery();
 
 
-##### Select a record with all fields.
+##### Seleccionar un registro con todos los campos.
 
 
     $papyrus->select()->from('users')->where(['dni' => 123456])->runQuery();
 
 
-##### Select a record with some fields 
+##### Seleccionar un registro con algunos los campos.
 
 
     $papyrus->select('dni, name')->from('users')->where(['dni' => 123456])->runQuery();
 
  
-##### Select records without 'Where' clausule, sorted by a field with value ASC or DESC.
+##### Seleccionar registros sin la clausula where, ordenado por un campo con valor ASC (Ascendente) ó DESC (Descendente).
 
 
     $papyrus->select()->from('users')->orderBy(['name' => 'ASC'])->runQuery();
@@ -220,7 +220,7 @@ The where method can only receive a value of array type, which should be the pri
     $papyrus->select('dni, lastName')->from('users')->orderBy(['lastName' => 'ASC'])->runQuery();
 
 
-##### Select records without 'Where' clausule but with limitation.
+##### Seleccionar registros sin la clausula where pero aplicando un límite.
 
 
     $papyrus->select()->from('users')->limit(3)->runQuery();
@@ -228,25 +228,25 @@ The where method can only receive a value of array type, which should be the pri
     $papyrus->select()->from('users')->limit(3)->orderBy(['name' => 'DESC'])->runQuery();
 
 
-### Delete
+### Borrar
 
-##### Delete all records 
+##### Borrar todos los registros
 
 
     $papyrus->deleteFrom('users')->runQuery();
 
 
-##### Delete a record
+##### Borrar un registro
 
 
     $papyrus->deleteFrom('users')->where(['dni' => 123456])->runQuery();
 
 
-### Update
+### Actualizar
 
-The primary key of a record can not be modified.
+La llave primaria de un registro no puede ser modificada. 
 
-##### Update all records
+##### Actualizar todos los registros.
 
 
     $data = ['name' => 'Tony', 'lastname' => 'Stark'];
@@ -254,26 +254,27 @@ The primary key of a record can not be modified.
     $papyrus->update('users')->set($data)->runQuery();
 
 
-##### Update a record
+##### Actualizar un registro.
 
 
     $data = ['name' => 'Tony', 'lastName' => 'The Iron Man'];
 
     $papyrus->update('users')->set($data)->where(['dni' => 123456])->runQuery();
 
-### Get the data of query
+
+### Obtener los datos de una consulta.
 
 
     $papyrus->getRecords();
 
 
-### Get the status of query
+### Obtener el estado de una consulta.
 
 
     $papyrus->getStatus();
 
 
-## Available methods
+## Métodos disponibles
 
 
     Papyrus::select($fields);
@@ -293,13 +294,13 @@ The primary key of a record can not be modified.
     $papyrus->setStoragePath($path = '');
 
 
-## Contribute
-1. Check for open issues or open a new issue to start a discussion around a bug or feature.
-2. Fork the repository on GitHub to start making your changes.
-3. Write one or more tests for the new feature or that expose the bug.
-4. Make code changes to implement the feature or fix the bug.
-5. Send a pull request to get your changes merged and published.
+## Contribuye
+1. Verifica los problemas abiertos o abre un nuevo problema para iniciar una discusión en torno a un error de software o característica. 
+2. Crea una bifurcación del repositorio en Github para realizar cambios.
+3. Escribe una o más pruebas para una nueva característica o que muestre un error de software. 
+4. Realiza cambios en el código para implementar la nueva característica o para reparar el error de software.
+5. Envía una petición para que tus cambios sean aceptados, combinados y publicados.
 
-Thanks...
+Gracias...
 
 ### [Omar Andrés Barbosa](http://omarbarbosa.com)
